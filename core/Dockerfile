@@ -4,7 +4,7 @@ MAINTAINER Benedikt von St. Vieth
 # install dependencies and clean-up afterwards
 RUN yum -y update && yum install -y wget java-1.8.0-openjdk-headless && yum clean all && rm -rf /var/lib/{rpm,yum}
 
-RUN wget -O '/unicore.tgz' 'https://swift.zam.kfa-juelich.de:8889/v1/AUTH_acf10a23f9af48ec961c5354888cc212/public/unicore-servers-7.4.0.tgz' && \
+RUN wget -q -O '/unicore.tgz' 'https://swift.zam.kfa-juelich.de:8889/v1/AUTH_acf10a23f9af48ec961c5354888cc212/public/unicore-servers-7.4.0.tgz' && \
     mkdir '/opt/unicore' && \
     tar -xzf /unicore.tgz -C /opt/unicore --strip-components 1 && \
     rm -rf /unicore.tgz /opt/unicore/docs && \
