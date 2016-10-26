@@ -1,11 +1,12 @@
-FROM centos:latest
+FROM openjdk:8-jre-alpine
 MAINTAINER Benedikt von St. Vieth
 
-# install dependencies and clean-up afterwards
-RUN yum -y update && yum install -y wget java-1.8.0-openjdk-headless && yum clean all && rm -rf /var/lib/{rpm,yum}
+# allow to use https urls in wget and tar with stripping the first directory.
+RUN apk --no-cache add bash openssl python && apk --no-cache --update add tar
 
-RUN wget -q -O '/unicore.tgz' 'https://swift.zam.kfa-juelich.de:8889/v1/AUTH_acf10a23f9af48ec961c5354888cc212/public/unicore-servers-7.4.0.tgz' && \
-    mkdir '/opt/unicore' && \
+# get unicore, extract it, configure it.
+RUN wget -q -O '/unicore.tgz' 'https://downloads.sourceforge.net/project/unicore/Servers/Core/7.7.0/unicore-servers-7.7.0.tgz' && \
+    mkdir -p '/opt/unicore' && \
     tar -xzf /unicore.tgz -C /opt/unicore --strip-components 1 && \
     rm -rf /unicore.tgz /opt/unicore/docs && \
     cd /opt/unicore && \
@@ -17,7 +18,7 @@ RUN wget -q -O '/unicore.tgz' 'https://swift.zam.kfa-juelich.de:8889/v1/AUTH_acf
 
 
 ADD entrypoint.sh /entrypoint.sh
-ENTRYPOINT /entrypoint.sh
+CMD /entrypoint.sh
 
 # default gateway port
 EXPOSE 8080
