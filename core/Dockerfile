@@ -5,7 +5,7 @@ MAINTAINER Benedikt von St. Vieth
 RUN apk --no-cache add bash openssl python && apk --no-cache --update add tar
 
 # get unicore, extract it, configure it.
-RUN wget -q -O '/unicore.tgz' 'https://downloads.sourceforge.net/project/unicore/Servers/Core/7.7.0/unicore-servers-7.7.0.tgz' && \
+RUN wget -q -O '/unicore.tgz' 'https://unicore-dev.zam.kfa-juelich.de/release-candidates/core/unicore-servers-7.8.0.tgz' && \
     mkdir -p '/opt/unicore' && \
     tar -xzf /unicore.tgz -C /opt/unicore --strip-components 1 && \
     rm -rf /unicore.tgz /opt/unicore/docs && \
